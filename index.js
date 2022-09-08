@@ -97,6 +97,7 @@ app.post("/signin", async (req, res) => {
 app.post("/signup", async (req, res) => {
 
     const {name, email, password} = req.body
+    delete req.body.confirmPassword
     const encryptedPassword = bcrypt.hashSync(password, 10)
     const {error} = schemaSingUp.validate(req.body, {abortEarly: false})
 
