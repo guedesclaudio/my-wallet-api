@@ -205,8 +205,19 @@ app.get("/cashflow", async (req, res) => {
     const token = authorization?.replace("Bearer ", "")
     let total = 0
 
+    if (!token) {
+        res.sendStatus(401)
+        return
+    }
+
     try {
         const user = await db.collection("sessions").findOne({token})
+
+        if (!user) {
+            res.sendStatus(401)
+            return
+        }
+
         const cashflow = await db.collection("cashflow").find({userId: user.userId}).toArray()
         
         cashflow.map(value => {
@@ -222,6 +233,38 @@ app.get("/cashflow", async (req, res) => {
     } catch (error) {
         res.sendStatus(500)
     }
+})
+
+app.delete("/deletemove/:id", async (req, res) => {
+
+    const {authorization} = req.headers
+    const token = authorization?.replace("Bearer ", "")
+    const {id} = req.params
+
+    if (!token) {
+        res.sendStatus(401)
+        return
+    }
+
+    try {
+        const user = await db.collection("sessions").findOne({token})
+        const move = await db.collection("cashflow").findOne({_id: new ObjectId(id)})
+
+        if (!user) {
+            res.sendStatus(401)
+            return
+        }
+        if(!move) {
+            res.sendStatus(404)
+        }
+
+        await db.collection("cashflow").deleteOne({_id: new ObjectId(id)})
+
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(500)
+    }
+
 })
 
 app.listen(5000, () => console.log("Server listening on port 5000"))
