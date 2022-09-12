@@ -23,12 +23,15 @@ async function deleteMove (req, res) {
 
 async function updateMove (req, res) {
 
-    let {money} = req.body
+    const {money, description} = req.body
     let data = req.body
     const id = res.locals.id
 
     if(money) {
         data = {...data, money: Number(money).toFixed(2)}
+    }
+    if(description) {
+        data = {...data, description: description[0].toUpperCase() + description.substring(1)}
     }
 
     try {
