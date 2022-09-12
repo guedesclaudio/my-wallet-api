@@ -6,9 +6,8 @@ const mongoClient = new MongoClient(process.env.MONGO_URI)
 
 try {
     await mongoClient.connect()
-    console.log("Mongo funcionando!")
 } catch (error) {
-    console.error(error)
+    console.error(`MONGO ERROR ${error}`)
 }
 
 const db = mongoClient.db("mywallet")
