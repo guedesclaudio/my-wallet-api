@@ -6,7 +6,7 @@ const schemaSignIn = joi.object({
 })
 
 const schemaSingUp = joi.object({
-    name: joi.string().max(20).empty().required().trim(),
+    name: joi.string().max(15).empty().required().trim(),
     email: joi.string().email().empty().required().trim(),
     password: joi.string().alphanum().empty().required().trim()
 })
