@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import userRouter from "./routers/user.router.js"
 import cashFlowRouter from "./routers/cashflow.router.js"
-import editMovementeRouter from "./routers/editMovement.router.js"
+import editMovementRouter from "./routers/editMovement.router.js"
 
 const app = express()
 
@@ -11,7 +11,7 @@ app
     .use(express.json())
     .use(userRouter)
     .use(cashFlowRouter)
-    .use(editMovementeRouter)
+    .use(editMovementRouter)
 
 //Para criar rotas privadas, crie um statusPost aqui para receber atualizações do status vindo do front,
 //calcule o tempo minimo para ter esse status recebido e se nao ta recebendo mais exclua a session do usuario

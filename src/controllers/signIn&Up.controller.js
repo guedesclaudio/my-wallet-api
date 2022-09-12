@@ -3,29 +3,11 @@ import bcrypt from "bcrypt"
 import {v4 as uuid} from "uuid"
 import db from "../database/db.js"
 
-const schemaSignIn = joi.object({
-    email: joi.string().email().required(),
-    password: joi.string().alphanum().required()
-})
-
-const schemaSingUp = joi.object({
-    name: joi.string().max(20).required(),
-    email: joi.string().email().required(),
-    password: joi.string().alphanum().required()
-})
 
 async function SignIn (req, res) {
 
-    const {email, password} = req.body
-
-    const {error} = schemaSignIn.validate(req.body, {abortEarly: false})
-
-    if(error) {
-        const errors = error.details.map(value => value.message)
-        res.status(422).send(errors)
-        return
-    }
-
+    const {email, password} = res.locals.userSignIn
+    
     try {
         const user = await db.collection("users").findOne({email})
 
@@ -68,13 +50,6 @@ async function SignUp (req, res) {
     const {name, email, password} = req.body
     delete req.body.confirmPassword
     const encryptedPassword = bcrypt.hashSync(password, 10)
-    const {error} = schemaSingUp.validate(req.body, {abortEarly: false})
-
-    if(error) {
-        const errors = error.details.map(value => value.message)
-        res.status(422).send(errors)
-        return
-    }
 
     try {
         const checkUser = await db.collection("users").findOne({email})

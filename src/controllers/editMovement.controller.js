@@ -10,23 +10,12 @@ const schemaEditFlow = joi.object({
 
 async function deleteMove (req, res) {
 
-    const {authorization} = req.headers
-    const token = authorization?.replace("Bearer ", "")
     const {id} = req.params
-
-    if (!token) {
-        res.sendStatus(401)
-        return
-    }
+    console.log('deletou')
 
     try {
-        const user = await db.collection("sessions").findOne({token})
         const move = await db.collection("cashflow").findOne({_id: new ObjectId(id)})
 
-        if (!user) {
-            res.sendStatus(401)
-            return
-        }
         if(!move) {
             res.sendStatus(404)
         }
@@ -41,8 +30,6 @@ async function deleteMove (req, res) {
 
 async function updateMove (req, res) {
 
-    const {authorization} = req.headers
-    const token = authorization?.replace("Bearer ", "")
     const {id} = req.params
     let {money} = req.body
     const {error} = schemaEditFlow.validate(req.body)
@@ -53,7 +40,7 @@ async function updateMove (req, res) {
         res.status(422).send(errors)
         return
     }
-    if (!token || !id) {
+    if (!id) {
         res.sendStatus(401)
         return
     }
@@ -62,11 +49,9 @@ async function updateMove (req, res) {
     }
 
     try {
-        const user = await db.collection("sessions").findOne({token})
         const move = await db.collection("cashflow").findOne({_id: new ObjectId(id)})
         
-
-        if(!user || !move) {
+        if(!move) {
             res.sendStatus(401)
             return 
         }
