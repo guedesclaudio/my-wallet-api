@@ -1,4 +1,3 @@
-import joi from "joi"
 import bcrypt from "bcrypt"
 import {v4 as uuid} from "uuid"
 import db from "../database/db.js"
@@ -59,7 +58,11 @@ async function SignUp (req, res) {
             return
         }
 
-        await db.collection("users").insertOne({name, email, password: encryptedPassword})
+        await db.collection("users").insertOne({
+            name: name.trim(), 
+            email: email.trim(), 
+            password: encryptedPassword
+        })
         res.sendStatus(201)
         return 
 

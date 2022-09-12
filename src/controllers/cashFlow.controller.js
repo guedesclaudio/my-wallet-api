@@ -12,7 +12,7 @@ async function registerEntry (req, res) {
             userId: user.userId, 
             type: "entry", 
             money: Number(money).toFixed(2), 
-            description, 
+            description: description[0].toUpperCase() + description.substring(1), 
             date: dayjs().format("DD/MM")
         })
         res.sendStatus(201)
@@ -33,7 +33,7 @@ async function registerExit (req, res) {
             userId: user.userId, 
             type: "exit", 
             money: Number(money).toFixed(2), 
-            description, 
+            description: description[0].toUpperCase() + description.substring(1), 
             date: dayjs().format("DD/MM")
         })
         res.sendStatus(201)

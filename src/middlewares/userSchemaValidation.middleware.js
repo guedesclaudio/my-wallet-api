@@ -1,14 +1,14 @@
 import joi from "joi"
 
 const schemaSignIn = joi.object({
-    email: joi.string().email().empty().required(),
-    password: joi.string().alphanum().empty().required()
+    email: joi.string().email().empty().required().trim(),
+    password: joi.string().alphanum().empty().required().trim()
 })
 
 const schemaSingUp = joi.object({
-    name: joi.string().max(20).required(),
-    email: joi.string().email().required(),
-    password: joi.string().alphanum().required()
+    name: joi.string().max(20).empty().required().trim(),
+    email: joi.string().email().empty().required().trim(),
+    password: joi.string().alphanum().empty().required().trim()
 })
 
 async function signinSchemaValidation(req, res, next) {
@@ -33,7 +33,6 @@ async function signupSchemaValidation(req, res, next) {
     if(error) {
         const errors = error.details.map(value => value.message)
         res.status(422).send(errors)
-        console.log("passou no middleware")
         return
     }
     next()

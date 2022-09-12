@@ -2,8 +2,8 @@ import joi from "joi"
 import db from "../database/db.js"
 
 const schemaFlow = joi.object({
-    money: joi.number().required(),
-    description: joi.string().max(20).required()
+    money: joi.number().empty().required(),
+    description: joi.string().max(20).empty().required().trim()
 })
 
 async function userTokenValidation(req, res, next) {
@@ -31,7 +31,6 @@ async function userTokenValidation(req, res, next) {
         return
     }
     
-    console.log("verificou token")
     next()
 }
 
@@ -43,7 +42,7 @@ async function moveSchemaValidation(req, res, next) {
         res.status(422).send(errors)
         return
     }
-    console.log("midd 1")
+
     next()
 }
 
