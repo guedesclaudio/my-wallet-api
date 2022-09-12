@@ -8,15 +8,15 @@ async function deleteMove (req, res) {
 
     try {
         const move = await db.collection("cashflow").findOne({_id: new ObjectId(id)})
-        console.log(move)
+        
         if(!move) {
             res.sendStatus(404)
+            return
         }
 
         await db.collection("cashflow").deleteOne({_id: new ObjectId(id)})
 
     } catch (error) {
-        console.error(error)
         res.sendStatus(500)
     }
 }

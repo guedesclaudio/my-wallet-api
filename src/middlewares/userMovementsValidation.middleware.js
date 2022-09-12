@@ -27,7 +27,6 @@ async function userTokenValidation(req, res, next) {
 
     } catch (error) {
         res.sendStatus(500)
-        console.error(error)
         return
     }
     

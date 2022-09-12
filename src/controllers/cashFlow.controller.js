@@ -18,7 +18,6 @@ async function registerEntry (req, res) {
         res.sendStatus(201)
 
     } catch (error) {
-        console.error(error)
         res.sendStatus(500)
     }
 }

@@ -39,7 +39,6 @@ async function SignIn (req, res) {
     } catch (error) {
 
         res.sendStatus(500)
-        console.error(error)
         return
     }
 }
