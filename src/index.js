@@ -15,4 +15,8 @@ app
     .use(cashFlowRouter)
     .use(editMovementRouter)
 
+app.get("/status", (req, res) => {
+    res.send("Aplicação rodando")
+})
+
 app.listen(process.env.PORT, () => console.log("Server listening on port 5000"))
