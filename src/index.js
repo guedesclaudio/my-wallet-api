@@ -3,6 +3,8 @@ import cors from "cors"
 import userRouter from "./routers/user.router.js"
 import cashFlowRouter from "./routers/cashflow.router.js"
 import editMovementRouter from "./routers/editMovement.router.js"
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express()
 
@@ -13,4 +15,4 @@ app
     .use(cashFlowRouter)
     .use(editMovementRouter)
 
-app.listen(5000, () => console.log("Server listening on port 5000"))
+app.listen(process.env.PORT, () => console.log("Server listening on port 5000"))
