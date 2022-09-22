@@ -1,7 +1,7 @@
 <div align="center">
   <h1>MY WALLET</h1>
   <br>
-  - Back-end de uma aplicação web para gerenciamento de finanças. 
+  - Back-end de uma aplicação web para gerenciamento de finanças. Esse é um projeto full stack. <a href = "https://github.com/guedesclaudio/my-wallet">Repositório do front-end</a>
   <br>
   <br>
 </div>
@@ -15,6 +15,7 @@
 - Criação de entradas e saídas de dinheiro
 - Opção de editar ou excluir entradas e saídas
 - Saldo total de dinheiro
+- Deploy com Heroku e mongo atlas
 
 # Tecnologias utilizadas
 - Node.js
@@ -26,6 +27,8 @@
 - JOI
 - MONGODB
 - UUID
+- MONGO ATLAS
+- HEROKU
 - GIT
 - GITHUB
 - VSCODE
