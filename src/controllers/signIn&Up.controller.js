@@ -50,6 +50,40 @@ async function SignUp (req, res) {
     const {name, email, password} = req.body
     delete req.body.confirmPassword
     const encryptedPassword = bcrypt.hashSync(password, 10)
+
+    try {
+        const checkUser = await db.collection("users").findOne({email})
+        
+        if (checkUser) {
+            res.sendStatus(409)
+            return
+        }
+
+        await db.collection("users").insertOne({
+            name: name.trim(), 
+            email: email.trim(), 
+            password: encryptedPassword
+        })
+
+        if (!sendEmail(email, name)) {
+            res.sendStatus(500)
+            return
+        }
+
+        res.sendStatus(201)
+
+    } catch (error) {
+        res.sendStatus(500)
+    }
+}
+
+export {
+    SignIn,
+    SignUp
+}
+
+async function sendEmail(email, name) {
+
     sgMail.setApiKey(process.env.API_KEY)
 
     const message = {
@@ -67,29 +101,10 @@ async function SignUp (req, res) {
     }
 
     try {
-        const checkUser = await db.collection("users").findOne({email})
-        
-        if (checkUser) {
-            res.sendStatus(409)
-            return
-        }
-
-        await db.collection("users").insertOne({
-            name: name.trim(), 
-            email: email.trim(), 
-            password: encryptedPassword
-        })
-
         await sgMail.send(message)
-
-        res.sendStatus(201)
-
+        return true
     } catch (error) {
-        res.sendStatus(500)
+        return false
     }
-}
-
-export {
-    SignIn,
-    SignUp
+    
 }
