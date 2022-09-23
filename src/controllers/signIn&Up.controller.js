@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt"
 import {v4 as uuid} from "uuid"
 import db from "../database/db.js"
-
+import sgMail from '@sendgrid/mail'
+import dotenv from "dotenv"
+dotenv.config()
 
 async function SignIn (req, res) {
 
@@ -48,6 +50,21 @@ async function SignUp (req, res) {
     const {name, email, password} = req.body
     delete req.body.confirmPassword
     const encryptedPassword = bcrypt.hashSync(password, 10)
+    sgMail.setApiKey(process.env.API_KEY)
+
+    const message = {
+        to: email,
+        from: process.env.EMAIL,
+        subject: "Boas-vindas MyWallet",
+        text: "Hello",
+        html: 
+        `<h1>Olá, ${name}</h1>
+        <br>
+        <p>Ficamos muito felizes em ter você conosco! Aproveite o 
+        nosso app e mantenha-se informado sobre novas atualizações.</p>
+        <br>
+        <p>Atenciosamente, equipe MyWallet.</p>`
+    }
 
     try {
         const checkUser = await db.collection("users").findOne({email})
@@ -62,12 +79,13 @@ async function SignUp (req, res) {
             email: email.trim(), 
             password: encryptedPassword
         })
+
+        await sgMail.send(message)
+
         res.sendStatus(201)
-        return 
 
     } catch (error) {
         res.sendStatus(500)
-        return
     }
 }
 
