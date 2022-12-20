@@ -40,11 +40,11 @@
 ```bash
 npm i
 ```
-3. Rode o projeto:
+3. Configure o .env de acordo com o .env.example
+4. Rode o projeto:
 ```bash
 node ./src/index.js
 ```
-4. Servidor:
-O servidor roda na porta 5000
+
 
 <br>
